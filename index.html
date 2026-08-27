@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather Atlas — climate over time</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">✳</span><span>weather<br><b>atlas</b></span></a>
+    <div class="source"><span class="pulse"></span> Live data from <b>Meteostat</b></div>
+    <a class="analysis-link" href="analysis.html">Deep analysis <span>↗</span></a>
+    <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">◐</button>
+  </header>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">CLIMATE EXPLORER · 1980—2026</p>
+      <h1>See the weather<br><em>change.</em></h1>
+      <p class="intro">Explore historical weather patterns, compare years, and spot the moments that shaped your local climate.</p>
+    </section>
+    <section class="controls card">
+      <div class="control station-control"><label>SEARCH CITY</label><input id="station" list="station-list" value="Luqa, Malta" autocomplete="off" placeholder="Type a city…"><datalist id="station-list"></datalist></div>
+      <div class="control"><label>FROM</label><input id="start" type="date" value="2020-01-01"></div>
+      <div class="control"><label>TO</label><input id="end" type="date" value="2020-12-31"></div>
+      <div class="quick"><label>QUICK RANGE</label><div><button data-range="1">1Y</button><button data-range="5">5Y</button><button data-range="10">10Y</button><button data-range="40">ALL</button></div></div>
+      <button class="explore" id="load">Explore <span>↗</span></button>
+    </section>
+    <div class="status" id="status">Loading observations…</div>
+    <section class="summary-grid">
+      <article class="metric-card card"><div class="metric-head"><span>AVERAGE TEMPERATURE</span><span class="metric-icon warm">°</span></div><strong id="avgTemp">—</strong><small>°C across selected period</small><div class="spark warm-line"></div></article>
+      <article class="metric-card card"><div class="metric-head"><span>TOTAL RAINFALL</span><span class="metric-icon rain">≋</span></div><strong id="totalRain">—</strong><small>mm across selected period</small><div class="spark rain-line"></div></article>
+      <article class="metric-card card"><div class="metric-head"><span>WARMEST DAY</span><span class="metric-icon sun">☼</span></div><strong id="warmest">—</strong><small id="warmestDate">Highest observed temperature</small><div class="spark sun-line"></div></article>
+      <article class="metric-card card"><div class="metric-head"><span>PERIOD CHANGE</span><span class="metric-icon trend">↗</span></div><strong id="change">—</strong><small>first year vs last year</small><div class="spark trend-line"></div></article>
+    </section>
+    <section class="chart-card card">
+      <div class="chart-top"><div><p class="eyebrow">TEMPERATURE TREND</p><h2 id="chartTitle">Daily average temperature</h2></div><div class="legend"><span class="legend-temp"></span>Temperature <span class="legend-rain"></span>Rainfall</div></div>
+      <div class="chart-wrap"><svg id="chart" viewBox="0 0 1000 360" role="img" aria-label="Weather trend chart"></svg></div>
+      <div class="chart-foot"><span id="rangeLabel">—</span><span class="mono">SOURCE · METEOSTAT</span></div>
+    </section>
+    <section class="insight card"><span class="insight-icon">✦</span><div><p class="eyebrow">AT A GLANCE</p><p id="insightText">Your weather story will appear here.</p></div></section>
+  </main>
+  <footer>WEATHER ATLAS <span>·</span> Historical observations powered by Meteostat</footer>
+  <script src="app.js"></script>
+</body>
+</html>
