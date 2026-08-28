@@ -23,7 +23,7 @@
       <p class="intro">Explore historical weather patterns, compare years, and spot the moments that shaped your local climate.</p>
     </section>
     <section class="controls card">
-      <div class="control station-control"><label>SEARCH CITY</label><input id="station" list="station-list" value="Luqa, Malta" autocomplete="off" placeholder="Type a city…"><datalist id="station-list"></datalist></div>
+      <div class="control station-control station-picker"><label for="station">SEARCH CITY</label><input id="station" value="Luqa, Malta" autocomplete="off" placeholder="Choose a city…" aria-autocomplete="list" aria-controls="station-list" aria-expanded="false"><div id="station-list" class="station-list" role="listbox"></div></div>
       <div class="control"><label>FROM</label><input id="start" type="date" value="2020-01-01"></div>
       <div class="control"><label>TO</label><input id="end" type="date" value="2020-12-31"></div>
       <div class="quick"><label>QUICK RANGE</label><div><button data-range="1">1Y</button><button data-range="5">5Y</button><button data-range="10">10Y</button><button data-range="40">ALL</button></div></div>
