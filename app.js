@@ -4,16 +4,19 @@ let stationCatalog = {};
 const fmt = (n, digits=1) => n == null || Number.isNaN(n) ? "—" : Number(n).toFixed(digits);
 if (localStorage.getItem("weather-atlas-theme") === "dark") document.body.classList.add("dark");
 function stationId(){const value=$("station").value.trim();const match=Object.entries(stationCatalog).find(([,station])=>station.name===value);return match?match[0]:value}
-async function loadStations(){try{stationCatalog=await (await fetch("api/stations")).json()}catch(e){stationCatalog=await staticStations()}$("station-list").innerHTML=Object.values(stationCatalog).sort((a,b)=>a.name.localeCompare(b.name)).map(station=>`<option value="${station.name}"></option>`).join("")}
+function renderStationOptions(query=""){const list=$("station-list"), matches=Object.entries(stationCatalog).filter(([,station])=>station.name.toLowerCase().includes(query.trim().toLowerCase())).sort(([,a],[,b])=>a.name.localeCompare(b.name));list.innerHTML="";if(!matches.length){list.innerHTML='<div class="station-empty">No matching cities</div>';return}matches.forEach(([id,station])=>{const option=document.createElement("button");option.type="button";option.className="station-option";option.role="option";option.textContent=station.name;option.dataset.stationId=id;option.onclick=()=>{ $("station").value=station.name;closeStationList();loadData() };list.appendChild(option)})}
+function closeStationList(){$("station-list").classList.remove("open");$("station").setAttribute("aria-expanded","false")}
+function setupStationPicker(){const input=$("station");renderStationOptions();input.onfocus=()=>{$("station-list").classList.add("open");input.setAttribute("aria-expanded","true");renderStationOptions(input.value)};input.oninput=()=>{$("station-list").classList.add("open");input.setAttribute("aria-expanded","true");renderStationOptions(input.value)};input.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();const first=$("station-list").querySelector(".station-option");if(first)first.click()}if(e.key==="Escape")closeStationList()};document.addEventListener("click",e=>{if(!e.target.closest(".station-picker"))closeStationList()})}
+async function loadStations(){try{stationCatalog=await (await fetch("api/stations")).json()}catch(e){stationCatalog=await staticStations()}setupStationPicker()}
 function setStatus(text, error=false){$("status").textContent=text;$("status").style.color=error?"#c65331":""}
 function dateRange(years){const end=new Date(); if(years===40)return ["1980-01-01",end.toISOString().slice(0,10)]; const start=new Date(end); start.setFullYear(end.getFullYear()-years); return [start.toISOString().slice(0,10),end.toISOString().slice(0,10)]}
 async function loadData(){
   const start=$("start").value,end=$("end").value;
   if(!start||!end||end<start){setStatus("Choose a valid date range.",true);return}
   setStatus("Loading observations…");
+  const span=(new Date(end)-new Date(start))/86400000;
+  const granularity=span>3650?"monthly":"daily";
   try{
-    const span=(new Date(end)-new Date(start))/86400000;
-    const granularity=span>3650?"monthly":span>730?"daily":"daily";
     const res=await fetch(`api/weather?station=${encodeURIComponent(stationId())}&start=${start}&end=${end}&granularity=${granularity}`);
     if(!res.ok)throw new Error("API unavailable");
     const payload=await res.json(); currentRows=payload.data.filter(d=>d.temp!=null||d.prcp!=null);
