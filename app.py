@@ -186,11 +186,14 @@ class Handler(SimpleHTTPRequestHandler):
 if __name__ == "__main__":
     import os
 
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", 10000))
 
-    print(f"Weather Atlas running on port {port}")
+    print(f"PORT environment variable: {os.environ.get('PORT')}", flush=True)
+    print(f"Weather Atlas listening on 0.0.0.0:{port}", flush=True)
 
-    ThreadingHTTPServer(
+    server = ThreadingHTTPServer(
         ("0.0.0.0", port),
         Handler
-    ).serve_forever()
+    )
+
+    server.serve_forever()
