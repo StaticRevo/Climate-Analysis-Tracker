@@ -1,4 +1,7 @@
+
 ## Weather Atlas | Climate Analysis Dashboard
+<img width="1919" height="1079" alt="S1" src="https://github.com/user-attachments/assets/a6d76166-8127-45c8-839e-20ac0ba2dead" />
+<img width="1919" height="1079" alt="S2" src="https://github.com/user-attachments/assets/175f6008-c615-4bbf-ad3d-b21225b005c4" />
 
 **Weather Atlas** is an interactive web application designed to explore and visualise historical climate data across different cities worldwide. Powered by the Meteostat weather data service, the platform allows users to analyse long-term weather patterns, identify climate trends, and compare environmental conditions over selected periods.
 
